@@ -1,5 +1,3 @@
-Sure! Here's an improved **README.md** with **useful Linux commands added under each skill**, keeping your structure clean and professional.
-
 ---
 
 # linux-demo
