@@ -1,5 +1,3 @@
----
-
 # linux-demo
 
 ## Linux Administration Skill Levels
