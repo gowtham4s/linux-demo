@@ -1,8 +1,8 @@
 # linux-demo
 
-## Linux Administration Skill Levels
+## Linux Administration Skill Levels (Amazon Linux Compatible)
 
-A structured roadmap of Linux admin skills categorized into three levels: **Basic**, **Intermediate**, and **Advanced**, along with essential Linux commands for each task.
+A structured roadmap of Linux admin skills categorized into **Basic**, **Intermediate**, and **Advanced**.
 
 ---
 
@@ -11,45 +11,56 @@ A structured roadmap of Linux admin skills categorized into three levels: **Basi
 ### ✔️ Set up users and groups for development teams
 
 ```bash
-sudo adduser devuser  
-sudo groupadd devteam  
-sudo usermod -aG devteam devuser 
+sudo adduser devuser
+sudo groupadd devteam
+sudo usermod -aG devteam devuser
 ```
 ![alt text](Evidences/1.png)
 
 ![alt text](Evidences/2.png)
 
-
 ### ✔️ Manage permissions for project directories
 
 ```bash
-sudo chown -R devuser:devteam /opt/project  
-sudo chmod 770 /opt/project  
-sudo chmod g+s /opt/project    # group inheritance
+sudo chown -R devuser:devteam /opt/project
+sudo chmod 770 /opt/project
+sudo chmod g+s /opt/project
 ```
+![alt text](Evidences/3.png)
 
 ### ✔️ Install required packages (git, nginx, java)
 
+Amazon Linux / Amazon Linux 2:
+
 ```bash
-sudo apt update  
-sudo apt install -y git nginx default-jre  
+sudo yum install -y git nginx java
+```
+![alt text](Evidences/4.png)
+
+Enable & start Nginx:
+
+```bash
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
+```
+![alt text](Evidences/5.png)
+
+### ✔️ Check system information
+
+```bash
+free -h            # memory
+lscpu              # CPU details
+df -h              # disk usage
+du -sh *           # folder sizes
+uname -a           # OS info
+top                # process usage
 ```
 
-*RHEL/CentOS:*
+Install `htop` (not preinstalled):
 
 ```bash
-sudo yum install git nginx java-11-openjdk
-```
-
-### ✔️ Check system information (memory, CPU, disk usage)
-
-```bash
-free -h              # memory  
-lscpu                # CPU details  
-df -h                # disk usage  
-du -sh *             # folder size  
-uname -a             # OS info  
-top / htop           # process usage  
+sudo yum install -y htop
 ```
 
 ---
@@ -58,19 +69,19 @@ top / htop           # process usage
 
 ### ✔️ Automate backups using Cron jobs
 
-Edit cron file:
+Edit crontab:
 
 ```bash
 crontab -e
 ```
 
-Example backup cron job:
+Backup cron job example:
 
 ```bash
 0 2 * * * tar -czf /backup/app_$(date +\%F).tar.gz /opt/app/
 ```
 
-### ✔️ Create shell scripts (log cleanup, service restart, health checks)
+### ✔️ Create shell scripts (cleanup, restarts, health checks)
 
 ```bash
 nano cleanup.sh
@@ -87,33 +98,41 @@ chmod +x cleanup.sh
 
 ### ✔️ Manage and analyze logs under `/var/log`
 
+Amazon Linux logs:
+
 ```bash
-cd /var/log  
-tail -f syslog  
-tail -100 nginx/error.log  
-grep -i "error" /var/log/messages  
-journalctl -u nginx  
+cd /var/log
+tail -f messages
+tail -f secure
+tail -100 /var/log/nginx/error.log
+grep -i "error" /var/log/messages
+journalctl -u nginx
 ```
 
-### ✔️ Monitor system performance and troubleshoot service issues
+### ✔️ Monitor system performance & troubleshoot services
+
+Tools available on Amazon Linux:
 
 ```bash
-htop  
-vmstat 5  
-iostat  
-systemctl status nginx  
-journalctl -xe  
-netstat -tulnp  
-ss -tulnp  
+htop
+vmstat 5
+iostat            # install via: sudo yum install -y sysstat
+systemctl status nginx
+journalctl -xe
+ss -tulnp         # faster than netstat
+```
+
+Install net-tools (if needed):
+
+```bash
+sudo yum install -y net-tools
 ```
 
 ---
 
 # 🟥 Level 3 – Advanced (Production-Ready Linux Admin)
 
-### ✔️ Create custom **systemd** services for applications
-
-Create service file:
+### ✔️ Create custom systemd services
 
 ```bash
 sudo nano /etc/systemd/system/app.service
@@ -134,21 +153,21 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
-Then:
+Apply it:
 
 ```bash
-sudo systemctl daemon-reload  
-sudo systemctl enable app  
-sudo systemctl start app  
+sudo systemctl daemon-reload
+sudo systemctl enable app
+sudo systemctl start app
 ```
 
-### ✔️ Implement SSH hardening for security
+### ✔️ SSH hardening (compatible with Amazon Linux)
 
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
 
-Recommended changes:
+Recommended:
 
 ```
 PermitRootLogin no
@@ -162,36 +181,47 @@ Apply:
 sudo systemctl restart sshd
 ```
 
-### ✔️ Configure and manage LVM for scalable storage
+### ✔️ Configure and manage LVM (Amazon Linux supports LVM2)
 
 ```bash
-pvcreate /dev/sdb  
-vgcreate vgdata /dev/sdb  
-lvcreate -L 20G -n lvapp vgdata  
-mkfs.ext4 /dev/vgdata/lvapp  
-mount /dev/vgdata/lvapp /mnt/app  
+sudo yum install -y lvm2
+
+sudo pvcreate /dev/sdb
+sudo vgcreate vgdata /dev/sdb
+sudo lvcreate -L 20G -n lvapp vgdata
+sudo mkfs.xfs /dev/vgdata/lvapp   # xfs is default on Amazon Linux
+sudo mkdir /mnt/app
+sudo mount /dev/vgdata/lvapp /mnt/app
 ```
 
-### ✔️ Set up firewall rules (iptables / firewalld / ufw)
+### ✔️ Set up firewall rules (Amazon Linux typically uses **iptables**)
 
-**ufw:**
+Amazon Linux 2 supports firewalld:
+
+Install & enable:
 
 ```bash
-sudo ufw allow 22  
-sudo ufw allow 80  
-sudo ufw enable
+sudo yum install -y firewalld
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
 ```
 
-**firewalld:**
+Add rules:
 
 ```bash
-sudo firewall-cmd --add-port=80/tcp --permanent  
+sudo firewall-cmd --add-port=80/tcp --permanent
+sudo firewall-cmd --add-port=22/tcp --permanent
 sudo firewall-cmd --reload
 ```
 
-### ✔️ Implement **logrotate** for application log management
+If using iptables:
 
-Create config:
+```bash
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+```
+
+### ✔️ Implement logrotate on Amazon Linux
 
 ```bash
 sudo nano /etc/logrotate.d/myapp
@@ -205,7 +235,6 @@ Example:
     rotate 7
     compress
     missingok
+    notifempty
 }
 ```
-
----
