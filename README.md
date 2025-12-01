@@ -13,8 +13,11 @@ A structured roadmap of Linux admin skills categorized into three levels: **Basi
 ```bash
 sudo adduser devuser  
 sudo groupadd devteam  
-sudo usermod -aG devteam devuser  
+sudo usermod -aG devteam devuser 
 ```
+![alt text](Evidences/1.png)
+![alt text](Evidences/2.png)
+
 
 ### ✔️ Manage permissions for project directories
 
@@ -205,12 +208,3 @@ Example:
 ```
 
 ---
-
-If you want, I can also:
-
-✅ Add emojis/styling
-✅ Format it in GitHub-friendly tables
-✅ Add badges (GitHub, Linux, DevOps)
-✅ Turn it into a full project documentation
-
-Would you like a more stylish version?
