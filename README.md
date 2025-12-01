@@ -56,6 +56,9 @@ du -sh *           # folder sizes
 uname -a           # OS info
 top                # process usage
 ```
+![alt text](Evidences/6.png)
+![alt text](Evidences/7.png)
+![alt text](Evidences/8.png)
 
 Install `htop` (not preinstalled):
 
