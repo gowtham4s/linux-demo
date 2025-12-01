@@ -169,6 +169,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable app
 sudo systemctl start app
 ```
+![alt text](Evidences/18.png)
 
 ### ✔️ SSH hardening (compatible with Amazon Linux)
 
@@ -189,6 +190,8 @@ Apply:
 ```bash
 sudo systemctl restart sshd
 ```
+![alt text](Evidences/19.png)
+![alt text](Evidences/20.png)
 
 ### ✔️ Configure and manage LVM (Amazon Linux supports LVM2)
 
@@ -202,6 +205,9 @@ sudo mkfs.xfs /dev/vgdata/lvapp   # xfs is default on Amazon Linux
 sudo mkdir /mnt/app
 sudo mount /dev/vgdata/lvapp /mnt/app
 ```
+![alt text](Evidences/21.png)
+![alt text](Evidences/22.png)
+![alt text](Evidences/23.png)
 
 ### ✔️ Set up firewall rules (Amazon Linux typically uses **iptables**)
 
@@ -214,6 +220,8 @@ sudo yum install -y firewalld
 sudo systemctl enable firewalld
 sudo systemctl start firewalld
 ```
+![alt text](Evidences/24.png)
+![alt text](Evidences/25.png)
 
 Add rules:
 
@@ -222,13 +230,7 @@ sudo firewall-cmd --add-port=80/tcp --permanent
 sudo firewall-cmd --add-port=22/tcp --permanent
 sudo firewall-cmd --reload
 ```
-
-If using iptables:
-
-```bash
-sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-```
+![alt text](Evidences/26.png)
 
 ### ✔️ Implement logrotate on Amazon Linux
 
@@ -246,4 +248,7 @@ Example:
     missingok
     notifempty
 }
+
+![alt text](Evidences/27.png)
+
 ```
