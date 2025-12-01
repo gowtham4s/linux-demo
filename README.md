@@ -65,6 +65,7 @@ Install `htop` (not preinstalled):
 ```bash
 sudo yum install -y htop
 ```
+![alt text](Evidences/9.png)
 
 ---
 
@@ -83,6 +84,7 @@ Backup cron job example:
 ```bash
 0 2 * * * tar -czf /backup/app_$(date +\%F).tar.gz /opt/app/
 ```
+![alt text](Evidences/11.png)
 
 ### ✔️ Create shell scripts (cleanup, restarts, health checks)
 
@@ -98,6 +100,7 @@ find /var/log -type f -name "*.log" -mtime +7 -delete
 ```bash
 chmod +x cleanup.sh
 ```
+![alt text](Evidences/12.png)
 
 ### ✔️ Manage and analyze logs under `/var/log`
 
@@ -105,12 +108,13 @@ Amazon Linux logs:
 
 ```bash
 cd /var/log
-tail -f messages
-tail -f secure
+tail -f dnf.log
 tail -100 /var/log/nginx/error.log
-grep -i "error" /var/log/messages
 journalctl -u nginx
 ```
+![alt text](Evidences/13.png)
+![alt text](Evidences/14.png)
+![alt text](Evidences/15.png)
 
 ### ✔️ Monitor system performance & troubleshoot services
 
@@ -124,13 +128,15 @@ systemctl status nginx
 journalctl -xe
 ss -tulnp         # faster than netstat
 ```
+![alt text](Evidences/10.png)
+![alt text](Evidences/16.png)
 
 Install net-tools (if needed):
 
 ```bash
 sudo yum install -y net-tools
 ```
-
+![alt text](Evidences/17.png)
 ---
 
 # 🟥 Level 3 – Advanced (Production-Ready Linux Admin)
