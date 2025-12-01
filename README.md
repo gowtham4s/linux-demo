@@ -16,6 +16,7 @@ sudo groupadd devteam
 sudo usermod -aG devteam devuser 
 ```
 ![alt text](Evidences/1.png)
+
 ![alt text](Evidences/2.png)
 
 
